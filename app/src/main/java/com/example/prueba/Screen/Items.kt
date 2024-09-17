@@ -20,27 +20,29 @@ import androidx.compose.ui.unit.sp
 fun textos() {
     val context = LocalContext.current
 
-    // Variables para las tres bandas de colores y sus colores asociados
+    // Variables para las tres bandas de colores, multiplicador, tolerancia y sus colores asociados
     var banda1 by remember { mutableStateOf<String?>(null) }
     var banda2 by remember { mutableStateOf<String?>(null) }
     var banda3 by remember { mutableStateOf<String?>(null) }
+    var tolerancia by remember { mutableStateOf<String?>(null) }
 
     var banda1Color by remember { mutableStateOf(Color.LightGray) }
     var banda2Color by remember { mutableStateOf(Color.LightGray) }
     var banda3Color by remember { mutableStateOf(Color.LightGray) }
+    var toleranciaColor by remember { mutableStateOf(Color.LightGray) }
 
     var isExpanded1 by remember { mutableStateOf(false) }
     var isExpanded2 by remember { mutableStateOf(false) }
     var isExpanded3 by remember { mutableStateOf(false) }
+    var isExpandedTolerancia by remember { mutableStateOf(false) }
 
     // Función para calcular el valor de la resistencia
     fun calcularResistencia(): String {
         val digito1 = banda1?.toIntOrNull() ?: return "Seleccione bandas"
         val digito2 = banda2?.toIntOrNull() ?: return "Seleccione bandas"
         val multiplicador = banda3?.toFloatOrNull() ?: return "Seleccione bandas"
-
         val resistencia = (digito1 * 10 + digito2) * multiplicador
-        return "$resistencia Ω ±20%" // Se asume una tolerancia de ±20%
+        return "$resistencia Ω ±${tolerancia ?: "20%"}"
     }
 
     Box(
@@ -50,7 +52,7 @@ fun textos() {
         contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally // Centra los elementos en la columna
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Título centrado
             Text(
@@ -58,8 +60,8 @@ fun textos() {
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally) // Centra el título horizontalmente
-                    .padding(bottom = 16.dp) // Espacio debajo del título
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
             )
 
             // Menú desplegable para la Banda 1
@@ -75,36 +77,43 @@ fun textos() {
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier
                         .menuAnchor()
-                        .background(banda1Color) // Fondo del botón cambia con el color
+                        .background(banda1Color)
                 )
                 ExposedDropdownMenu(
                     expanded = isExpanded1,
                     onDismissRequest = { isExpanded1 = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Negro - 0") },
-                        onClick = {
-                            banda1 = "0"
-                            banda1Color = Color.Black // Cambia color del botón
-                            isExpanded1 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Marrón - 1") },
-                        onClick = {
-                            banda1 = "1"
-                            banda1Color = Color(0xFF964B00) // Marrón
-                            isExpanded1 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Rojo - 2") },
-                        onClick = {
-                            banda1 = "2"
-                            banda1Color = Color.Red // Rojo
-                            isExpanded1 = false
-                        }
-                    )
+                    // Colores para banda 1
+                    DropdownMenuItem(text = { Text("Negro - 0") }, onClick = {
+                        banda1 = "0"; banda1Color = Color.Black; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Marrón - 1") }, onClick = {
+                        banda1 = "1"; banda1Color = Color(0xFF964B00); isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Rojo - 2") }, onClick = {
+                        banda1 = "2"; banda1Color = Color.Red; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Naranja - 3") }, onClick = {
+                        banda1 = "3"; banda1Color = Color(0xFFFFA500); isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Amarillo - 4") }, onClick = {
+                        banda1 = "4"; banda1Color = Color.Yellow; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Verde - 5") }, onClick = {
+                        banda1 = "5"; banda1Color = Color.Green; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Azul - 6") }, onClick = {
+                        banda1 = "6"; banda1Color = Color.Blue; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Violeta - 7") }, onClick = {
+                        banda1 = "7"; banda1Color = Color(0xFF8B00FF); isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Gris - 8") }, onClick = {
+                        banda1 = "8"; banda1Color = Color.Gray; isExpanded1 = false
+                    })
+                    DropdownMenuItem(text = { Text("Blanco - 9") }, onClick = {
+                        banda1 = "9"; banda1Color = Color.White; isExpanded1 = false
+                    })
                 }
             }
 
@@ -123,36 +132,43 @@ fun textos() {
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier
                         .menuAnchor()
-                        .background(banda2Color) // Fondo del botón cambia con el color
+                        .background(banda2Color)
                 )
                 ExposedDropdownMenu(
                     expanded = isExpanded2,
                     onDismissRequest = { isExpanded2 = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Negro - 0") },
-                        onClick = {
-                            banda2 = "0"
-                            banda2Color = Color.Black // Cambia color del botón
-                            isExpanded2 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Marrón - 1") },
-                        onClick = {
-                            banda2 = "1"
-                            banda2Color = Color(0xFF964B00) // Marrón
-                            isExpanded2 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Rojo - 2") },
-                        onClick = {
-                            banda2 = "2"
-                            banda2Color = Color.Red // Rojo
-                            isExpanded2 = false
-                        }
-                    )
+                    // Colores para banda 2 (igual que banda 1)
+                    DropdownMenuItem(text = { Text("Negro - 0") }, onClick = {
+                        banda2 = "0"; banda2Color = Color.Black; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Marrón - 1") }, onClick = {
+                        banda2 = "1"; banda2Color = Color(0xFF964B00); isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Rojo - 2") }, onClick = {
+                        banda2 = "2"; banda2Color = Color.Red; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Naranja - 3") }, onClick = {
+                        banda2 = "3"; banda2Color = Color(0xFFFFA500); isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Amarillo - 4") }, onClick = {
+                        banda2 = "4"; banda2Color = Color.Yellow; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Verde - 5") }, onClick = {
+                        banda2 = "5"; banda2Color = Color.Green; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Azul - 6") }, onClick = {
+                        banda2 = "6"; banda2Color = Color.Blue; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Violeta - 7") }, onClick = {
+                        banda2 = "7"; banda2Color = Color(0xFF8B00FF); isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Gris - 8") }, onClick = {
+                        banda2 = "8"; banda2Color = Color.Gray; isExpanded2 = false
+                    })
+                    DropdownMenuItem(text = { Text("Blanco - 9") }, onClick = {
+                        banda2 = "9"; banda2Color = Color.White; isExpanded2 = false
+                    })
                 }
             }
 
@@ -164,43 +180,78 @@ fun textos() {
                 onExpandedChange = { isExpanded3 = !isExpanded3 }
             ) {
                 TextField(
-                    value = banda3 ?: "Banda 3 (Multiplicador)",
+                    value = banda3 ?: "Multiplicador",
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(isExpanded3) },
                     colors = ExposedDropdownMenuDefaults.textFieldColors(),
                     modifier = Modifier
                         .menuAnchor()
-                        .background(banda3Color) // Fondo del botón cambia con el color
+                        .background(banda3Color)
                 )
                 ExposedDropdownMenu(
                     expanded = isExpanded3,
                     onDismissRequest = { isExpanded3 = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Negro - x1") },
-                        onClick = {
-                            banda3 = "1"
-                            banda3Color = Color.Black // Cambia color del botón
-                            isExpanded3 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Marrón - x10") },
-                        onClick = {
-                            banda3 = "10"
-                            banda3Color = Color(0xFF964B00) // Marrón
-                            isExpanded3 = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Rojo - x100") },
-                        onClick = {
-                            banda3 = "100"
-                            banda3Color = Color.Red // Rojo
-                            isExpanded3 = false
-                        }
-                    )
+                    // Colores para multiplicador
+                    DropdownMenuItem(text = { Text("Negro - x1") }, onClick = {
+                        banda3 = "1"; banda3Color = Color.Black; isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Marrón - x10") }, onClick = {
+                        banda3 = "10"; banda3Color = Color(0xFF964B00); isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Rojo - x100") }, onClick = {
+                        banda3 = "100"; banda3Color = Color.Red; isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Naranja - x1K") }, onClick = {
+                        banda3 = "1000"; banda3Color = Color(0xFFFFA500); isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Amarillo - x10K") }, onClick = {
+                        banda3 = "10000"; banda3Color = Color.Yellow; isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Verde - x100K") }, onClick = {
+                        banda3 = "100000"; banda3Color = Color.Green; isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Azul - x1M") }, onClick = {
+                        banda3 = "1000000"; banda3Color = Color.Blue; isExpanded3 = false
+                    })
+                    DropdownMenuItem(text = { Text("Violeta - x10M") }, onClick = {
+                        banda3 = "10000000"; banda3Color = Color(0xFF8B00FF); isExpanded3 = false
+                    })
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Menú desplegable para la tolerancia
+            ExposedDropdownMenuBox(
+                expanded = isExpandedTolerancia,
+                onExpandedChange = { isExpandedTolerancia = !isExpandedTolerancia }
+            ) {
+                TextField(
+                    value = tolerancia ?: "Tolerancia",
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(isExpandedTolerancia) },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .background(toleranciaColor)
+                )
+                ExposedDropdownMenu(
+                    expanded = isExpandedTolerancia,
+                    onDismissRequest = { isExpandedTolerancia = false }
+                ) {
+                    // Colores para tolerancia
+                    DropdownMenuItem(text = { Text("Dorado - ±5%") }, onClick = {
+                        tolerancia = "5%"; toleranciaColor = Color(0xFFFFD700); isExpandedTolerancia = false
+                    })
+                    DropdownMenuItem(text = { Text("Plateado - ±10%") }, onClick = {
+                        tolerancia = "10%"; toleranciaColor = Color(0xFFC0C0C0); isExpandedTolerancia = false
+                    })
+                    DropdownMenuItem(text = { Text("Ninguno - ±20%") }, onClick = {
+                        tolerancia = "20%"; toleranciaColor = Color.LightGray; isExpandedTolerancia = false
+                    })
                 }
             }
 
