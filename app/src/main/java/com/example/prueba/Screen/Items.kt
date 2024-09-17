@@ -64,6 +64,20 @@ fun textos() {
                     .padding(bottom = 16.dp)
             )
 
+            // Representación visual de las bandas de la resistencia
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                // Cuadros que representan las bandas de colores
+                Box(modifier = Modifier.size(50.dp).background(banda1Color))
+                Box(modifier = Modifier.size(50.dp).background(banda2Color))
+                Box(modifier = Modifier.size(50.dp).background(banda3Color))
+                Box(modifier = Modifier.size(50.dp).background(toleranciaColor))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Menú desplegable para la Banda 1
             ExposedDropdownMenuBox(
                 expanded = isExpanded1,
@@ -138,7 +152,7 @@ fun textos() {
                     expanded = isExpanded2,
                     onDismissRequest = { isExpanded2 = false }
                 ) {
-                    // Colores para banda 2 (igual que banda 1)
+                    // Colores para banda 2
                     DropdownMenuItem(text = { Text("Negro - 0") }, onClick = {
                         banda2 = "0"; banda2Color = Color.Black; isExpanded2 = false
                     })
@@ -193,7 +207,6 @@ fun textos() {
                     expanded = isExpanded3,
                     onDismissRequest = { isExpanded3 = false }
                 ) {
-                    // Colores para multiplicador
                     DropdownMenuItem(text = { Text("Negro - x1") }, onClick = {
                         banda3 = "1"; banda3Color = Color.Black; isExpanded3 = false
                     })
