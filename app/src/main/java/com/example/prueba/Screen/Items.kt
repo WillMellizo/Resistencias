@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.pow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.sp
 fun textos() {
     val context = LocalContext.current
 
-    // Variables para las tres bandas de colores, multiplicador, tolerancia y sus colores asociados
+    // Variables para las bandas de colores, multiplicador, tolerancia y sus colores asociados
     var banda1 by remember { mutableStateOf<String?>(null) }
     var banda2 by remember { mutableStateOf<String?>(null) }
     var banda3 by remember { mutableStateOf<String?>(null) }
@@ -36,13 +37,23 @@ fun textos() {
     var isExpanded3 by remember { mutableStateOf(false) }
     var isExpandedTolerancia by remember { mutableStateOf(false) }
 
-    // Función para calcular el valor de la resistencia
+    // Función para calcular el valor de la resistencia en formato decimal
     fun calcularResistencia(): String {
         val digito1 = banda1?.toIntOrNull() ?: return "Seleccione bandas"
         val digito2 = banda2?.toIntOrNull() ?: return "Seleccione bandas"
         val multiplicador = banda3?.toFloatOrNull() ?: return "Seleccione bandas"
         val resistencia = (digito1 * 10 + digito2) * multiplicador
-        return "$resistencia Ω ±${tolerancia ?: "20%"}"
+
+        // Ajustar el formato del resultado a decimal
+        val resultadoDecimal = if (resistencia < 1000) {
+            String.format("%.2f Ω", resistencia) // Menor de 1000 ohmios
+        } else if (resistencia < 1000000) {
+            String.format("%.2f kΩ", resistencia / 1000) // Entre 1kΩ y 1MΩ
+        } else {
+            String.format("%.2f MΩ", resistencia / 1000000) // Mayor de 1MΩ
+        }
+
+        return "$resultadoDecimal ±${tolerancia ?: "20%"}"
     }
 
     Box(
@@ -188,7 +199,7 @@ fun textos() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Menú desplegable para la Banda 3 (Multiplicador)
+            // Menú desplegable para el Multiplicador
             ExposedDropdownMenuBox(
                 expanded = isExpanded3,
                 onExpandedChange = { isExpanded3 = !isExpanded3 }
